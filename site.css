@@ -172,3 +172,4 @@ html.motion-off .svc h3{color:var(--paper)}
   .inquiry button{font-size:1.4rem;min-height:4rem}
   .foot{padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
 }
+html.m:not(.motion-off) .hero-text{opacity:0}
