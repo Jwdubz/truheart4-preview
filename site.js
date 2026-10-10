@@ -19,7 +19,7 @@ vids.forEach(function(v){vio.observe(v)});
 ['pointerdown','touchstart','keydown','wheel'].forEach(function(ev){addEventListener(ev,function(){vids.forEach(function(v){if(onScreen.get(v))play(v)})},{passive:true,once:true})});
 
 /* payoff: TEAMS. lands 0.25s after the cheque cut (0.95s), on the film's own clock, then stays */
-var PAYOFF=2.05;
+var PAYOFF=4.65;
 held.style.opacity=0;
 (function watch(){if(hv.currentTime>=PAYOFF){held.style.transition='opacity .45s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)';held.style.opacity=1;held.style.transform='none';return}requestAnimationFrame(watch)})();
 held.style.transform='translateY(.12em)';
