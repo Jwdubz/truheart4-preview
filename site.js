@@ -19,7 +19,7 @@ vids.forEach(function(v){vio.observe(v)});
 ['pointerdown','touchstart','keydown','wheel'].forEach(function(ev){addEventListener(ev,function(){vids.forEach(function(v){if(onScreen.get(v))play(v)})},{passive:true,once:true})});
 
 /* payoff: TEAMS. lands 0.25s after the cheque cut (0.95s), on the film's own clock, then stays */
-var PAYOFF=1.2;
+var PAYOFF=2.05;
 held.style.opacity=0;
 (function watch(){if(hv.currentTime>=PAYOFF){held.style.transition='opacity .45s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)';held.style.opacity=1;held.style.transform='none';return}requestAnimationFrame(watch)})();
 held.style.transform='translateY(.12em)';
@@ -67,16 +67,18 @@ function boot(){
     var pr=pin.getBoundingClientRect(),wr=win.getBoundingClientRect();
     geo={W:W,ex:ex,ey:ey,sx:wr.left-pr.left,sy:wr.top-pr.top-(gsap.getProperty(txt,'y')||0),s:wr.width/W};
   }
-  var st={p:0,t:0};
+  var st={p:0,t:0},intro={v:1};
   /* damped follow so the card glides instead of tracking the wheel 1:1 */
   gsap.ticker.add(function(){var dp=st.t-st.p;if(Math.abs(dp)>.0004){st.p+=dp*.09;render()}});
-  function render(){var p=st.p,k=gsap.parseEase('power2.inOut')(Math.min(1,p/.72));
+  function render(){var p=Math.max(st.p,intro.v),k=gsap.parseEase('power2.inOut')(Math.min(1,p/.72));
     var s=geo.s+(1-geo.s)*k,x=geo.sx+(geo.ex-geo.sx)*k,y=geo.sy+(geo.ey-geo.sy)*k;
     card.style.transform='translate3d('+x.toFixed(2)+'px,'+y.toFixed(2)+'px,0) scale('+s.toFixed(4)+')';
     var t=Math.min(1,Math.max(0,(p-.04)/.3));txt.style.opacity=(1-t).toFixed(3);txt.style.transform='translateY('+(-t*8).toFixed(2)+'vh)';
-    var c=Math.min(1,Math.max(0,(p-.72)/.14));cap.style.opacity=c.toFixed(3);if(c>.2)counter(cap.querySelector('[data-count]'));
+    var c=Math.min(1,Math.max(0,(st.p-.72)/.14));cap.style.opacity=c.toFixed(3);if(c>.2)counter(cap.querySelector('[data-count]'));
     txt.style.pointerEvents=t>.5?'none':'auto'}
   measure();render();
+  /* Cinematic Rule: the film owns the screen from frame one, then settles into BUILDING after the cheque lands */
+  (function settle(){if(hv.currentTime>=PAYOFF+.9||!d.classList.contains('m')){gsap.to(intro,{v:0,duration:1.6,ease:'power3.inOut',onUpdate:render});return}requestAnimationFrame(settle)})();
   ScrollTrigger.create({trigger:'.hero',start:'top top',end:'bottom bottom',scrub:true,invalidateOnRefresh:true,onRefresh:function(){measure();render()},onUpdate:function(self){st.t=self.progress}});
   addEventListener('resize',function(){measure();render()});
 
