@@ -89,20 +89,22 @@ function boot(){
   ScrollTrigger.create({trigger:stmt,start:'top 78%',end:'bottom 42%',scrub:true,onUpdate:function(s){var n=Math.round(s.progress*wds.length);wds.forEach(function(w,i){w.classList.toggle('lit',i<n)})},onLeave:function(){wds.forEach(function(w){w.classList.add('lit')})}});
   ScrollTrigger.batch('.stat',{start:'top 88%',once:true,onEnter:function(b){gsap.from(b,{opacity:0,y:40,duration:.9,ease:'expo.out',stagger:.1});b.forEach(function(el,i){counter(el.querySelector('[data-count]'),.1+i*.1)})}});
 
-  gsap.fromTo('.ghost span',{xPercent:6},{xPercent:-34,ease:'none',scrollTrigger:{trigger:'.ghost',start:'top bottom',end:'bottom top',scrub:true}});
 
   /* services: the one you are reading lights */
   document.querySelectorAll('.svc>li').forEach(function(li){ScrollTrigger.create({trigger:li,start:'top 62%',end:'bottom 62%',toggleClass:'on'})});
 
-  /* reps: cards land tilted, settle */
-  gsap.fromTo('.rep-a',{y:180,rotation:-9},{y:0,rotation:-2,ease:'none',scrollTrigger:{trigger:'.reps',start:'top bottom',end:'center 58%',scrub:true}});
-  gsap.fromTo('.rep-b',{y:260,rotation:8},{y:0,rotation:2.5,ease:'none',scrollTrigger:{trigger:'.reps',start:'top bottom',end:'center 52%',scrub:true}});
+  /* reps: frames open from the bottom edge, one after the other */
+  gsap.utils.toArray('.rep').forEach(function(el,i){gsap.fromTo(el.querySelector('.rep-frame'),{clipPath:'inset(100% 0 0 0)'},{clipPath:'inset(0% 0 0 0)',duration:1.4,ease:'expo.inOut',delay:i*.14,scrollTrigger:{trigger:'.reps',start:'top 62%',once:true}});
+    gsap.fromTo(el.querySelector('video'),{scale:1.12},{scale:1,duration:1.8,ease:'expo.out',delay:i*.14,scrollTrigger:{trigger:'.reps',start:'top 62%',once:true}})});
   ScrollTrigger.batch('.rep figcaption',{start:'top 92%',once:true,onEnter:function(b){b.forEach(function(el,i){counter(el.querySelector('[data-count]'),.1+i*.12)})}});
 
-  /* ask: the two lines meet */
-  gsap.fromTo('.ask-l1',{xPercent:-45},{xPercent:0,ease:'none',scrollTrigger:{trigger:'.ask',start:'top bottom',end:'top 25%',scrub:true}});
-  gsap.fromTo('.ask-l2',{xPercent:45},{xPercent:0,ease:'none',scrollTrigger:{trigger:'.ask',start:'top bottom',end:'top 25%',scrub:true}});
-
+  /* ask: lines rise in, eased; the page warms to red as you arrive */
+  function fitAsk(){var h=document.querySelector('.h-ask'),l=document.querySelector('.ask-l2');h.style.fontSize='100px';var w=l.scrollWidth/100;h.style.fontSize=Math.min(220,(h.clientWidth/w)*.98).toFixed(1)+'px'}
+  fitAsk();addEventListener('resize',fitAsk);
+  gsap.from('.h-ask span',{yPercent:110,duration:1.2,ease:'expo.out',stagger:.1,scrollTrigger:{trigger:'.ask',start:'top 70%',once:true}});
+  gsap.from('.ask-grid > *',{opacity:0,y:30,duration:1,ease:'expo.out',stagger:.12,scrollTrigger:{trigger:'.ask-grid',start:'top 85%',once:true}});
+  gsap.fromTo('.ask',{backgroundColor:'#0c0c0c'},{backgroundColor:'#cf2d20',ease:'none',scrollTrigger:{trigger:'.ask',start:'top 95%',end:'top 35%',scrub:true}});
+  gsap.fromTo('.foot',{backgroundColor:'#cf2d20'},{backgroundColor:'#0c0c0c',ease:'none',scrollTrigger:{trigger:'.foot',start:'top 100%',end:'top 55%',scrub:true}});
   window.__thReady=true;
   requestAnimationFrame(function(){ScrollTrigger.refresh()});addEventListener('load',function(){ScrollTrigger.refresh()});
 }

@@ -173,3 +173,43 @@ html.motion-off .svc h3{color:var(--paper)}
   .foot{padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
 }
 html.m:not(.motion-off) .hero-text{opacity:0}
+/* r10: one ground, eased transitions, breathing room */
+.brands{background:var(--black);color:var(--paper);padding-top:14rem;padding-bottom:10rem}
+.statement .wd{color:var(--dimB)}.statement .wd.lit{color:var(--paper)}
+html:not(.m) .statement .wd,html.motion-off .statement .wd{color:var(--paper)!important}
+.stats{border-bottom-color:var(--lineB)}.stat{border-top-color:var(--lineB)}.stat dd{color:rgba(243,241,236,.7)}
+.services{padding:10rem var(--g) 12rem;border-top:1px solid var(--lineB);margin:0 var(--g);padding-left:0;padding-right:0}
+.reps{background:var(--black);color:var(--paper);grid-template-columns:minmax(0,1.1fr) repeat(2,minmax(0,.62fr));gap:0 1.6rem;align-items:start;padding:10rem var(--g) 12rem;border-top:1px solid var(--lineB)}
+.reps-h .dim{color:rgba(243,241,236,.42)}
+.reps-head{padding-top:0}
+.rep-b{margin-bottom:0;margin-top:6rem}
+.rep figcaption{border-top-color:var(--lineB)}
+.ask{background:var(--black);padding:12rem var(--g) 8rem}
+.h-ask{font-size:9vw;line-height:.9;letter-spacing:-.01em}
+.h-ask span{overflow:hidden}
+.ask-l2{text-align:left}
+.ask-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:4rem;margin-top:5rem;padding-top:2.4rem;border-top:1px solid rgba(243,241,236,.35);align-items:start}
+.ask-lede{max-width:30ch;font-weight:500;font-size:1.25rem;line-height:1.4}
+.ask-phone{margin-top:2rem;font-size:3.4rem}
+.inquiry{margin-top:0;padding:0;background:none;border-radius:0;gap:1.6rem 2rem;max-width:44rem}
+.field input,.field textarea{min-height:2.8rem;font-size:1.1rem;border-bottom-color:rgba(243,241,236,.55)}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--paper)}
+.field ::placeholder{color:rgba(243,241,236,.55)}
+.field label{color:rgba(243,241,236,.85)}
+.req{color:var(--paper)}
+.field textarea{min-height:4rem}
+.inquiry button{grid-column:1/2;justify-self:start;min-height:3.4rem;padding:0 2.2rem;font:600 .9rem/1.2 var(--text);letter-spacing:.12em;background:var(--paper);color:var(--ink)}
+.inquiry button:hover{background:var(--ink);color:var(--paper)}
+.form-note{font-size:.85rem;color:rgba(243,241,236,.8)}
+.foot{background:var(--black)}
+@media (max-width:999px){
+  .brands{padding:8rem var(--g) 6rem}
+  .services{margin:0 var(--g);padding:6rem 0 7rem}
+  .reps{grid-template-columns:1fr 1fr;padding:6rem var(--g) 7rem}
+  .rep-b{margin-top:3rem}
+  .ask{padding:7rem var(--g) 5rem}
+  .h-ask{white-space:nowrap}
+  .ask-grid{grid-template-columns:1fr;gap:2.4rem;margin-top:3rem}
+  .ask-phone{font-size:2.4rem}
+  .inquiry button{grid-column:1/-1;justify-self:stretch}
+}
